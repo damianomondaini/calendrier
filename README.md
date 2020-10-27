@@ -1,2 +1,3 @@
 # calendrier
-Calendrier HEIG-VD
+Labo 03 - Calendrier
+HEIG-VD
