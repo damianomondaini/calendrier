@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/damia/Documents/HEIG/01_Cours/PRG - Programmation/98_Labos/calendrier/main.cpp
+iostream
+-
+iomanip
+-
+cstdlib
+-
+limits
+-
+
