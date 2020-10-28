@@ -69,7 +69,7 @@ int main () {
    unsigned int anneeSaisie = 0;
 
    do {
-      cout << "Entrer une valeur [1900-2100] :";
+      cout << "Entrer une valeur [1900-2100] : ";
       cin >> anneeSaisie;
       if (cin.fail() || anneeSaisie < anneeMin || anneeSaisie > anneeMax) {
          REPARER_BUFFER;
@@ -78,7 +78,83 @@ int main () {
       }
    } while (anneeSaisie < anneeMin || anneeSaisie > anneeMax);
 
-   cout << "Annee saisie: " << anneeSaisie;
+   enum class Mois {
+        JANVIER = 1,
+        FEVRIER,
+        MARS,
+        AVRIL,
+        MAI,
+        JUIN,
+        JUILLET,
+        AOUT,
+        SEPTEMBRE,
+        OCTOBRE,
+        NOVEMBRE,
+        DECEMBRE
+   };
+
+
+   bool estBissextile = false; /*********************** TODO: Demander au prof */
+
+   if(anneeSaisie % 400 == 0 || anneeSaisie % 4 == 0
+           && anneeSaisie % 100 != 0){
+        estBissextile = true;
+   }
+
+   for (Mois moisCourrant = Mois::JANVIER;
+        moisCourrant <= Mois::DECEMBRE;
+        moisCourrant = Mois((int)moisCourrant + 1)){
+
+        switch((int)moisCourrant){
+            case 1: cout  << "JANVIER";   break;
+            case 2: cout  << "FEVRIER";   break;
+            case 3: cout  << "MARS";      break;
+            case 4: cout  << "AVRIL";     break;
+            case 5: cout  << "MAI";       break;
+            case 6: cout  << "JUIN";      break;
+            case 7: cout  << "JUILLET";   break;
+            case 8: cout  << "AOUT";      break;
+            case 9: cout  << "SEPTEMBRE"; break;
+            case 10: cout << "OCTOBRE";   break;
+            case 11: cout << "NOVEMBRE";  break;
+            case 12: cout << "DECEMBRE";  break;
+        }
+
+        //afficher mois et annee
+        cout << " " << anneeSaisie << endl
+            // afficher Lettre du jour
+            << " L  M  M  J  V  S  D" << endl;
+
+            int noJourMois;
+
+            if(moisCourrant == Mois::FEVRIER){
+                if(estBissextile){
+                    noJourMois = 29;
+                } else {
+                    noJourMois = 28;
+                }
+            }else if((int)moisCourrant < 8 ){
+                if((int)moisCourrant % 2 == 0){
+                    noJourMois = 30;
+                } else {
+                    noJourMois = 31;
+                }
+            } else {
+                if((int)moisCourrant % 2 == 0){
+                    noJourMois = 31;
+                } else {
+                    noJourMois = 30;
+                }
+            }
+
+            for(int jourMois = 1; jourMois <= noJourMois; ++jourMois){
+                cout << setw(2) << jourMois << " ";
+                if(jourMois % 7 == 0){
+                    cout << endl;
+                }
+            }
+       cout << endl;
+   }
 
    return EXIT_SUCCESS;
 }
