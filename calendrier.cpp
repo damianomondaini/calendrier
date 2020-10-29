@@ -92,19 +92,30 @@ int main () {
         DECEMBRE
    };
 
+   enum class Jours {
+      LUNDI = 1,
+      MARDI,
+      MERCREDI,
+      JEUDI,
+      VENDREDI,
+      SAMEDI,
+      DIMANCHE
+   };
 
    bool estBissextile = false;
 
-   if(anneeSaisie % 400 == 0 || anneeSaisie % 4 == 0
-           && anneeSaisie % 100 != 0){
+   if (anneeSaisie % 400 == 0 || anneeSaisie % 4 == 0 && anneeSaisie % 100 != 0) {
         estBissextile = true;
    }
 
+   Jours premierJourMois = Jours::LUNDI;
+   Jours jourMois = Jours::LUNDI;
+
    for (Mois moisCourrant = Mois::JANVIER;
         moisCourrant <= Mois::DECEMBRE;
-        moisCourrant = Mois((int)moisCourrant + 1)){
+        moisCourrant = Mois((int)moisCourrant + 1)) {
 
-        switch((int)moisCourrant){
+        switch ((int)moisCourrant) {
             case 1: cout  << "JANVIER";   break;
             case 2: cout  << "FEVRIER";   break;
             case 3: cout  << "MARS";      break;
@@ -125,35 +136,50 @@ int main () {
         // Afficher la premiere lettre du jour de la semaine
         cout << " L  M  M  J  V  S  D" << endl;
 
-         int noJourMois;
+         int nbreJourMois;
 
          if(moisCourrant == Mois::FEVRIER) {
              if(estBissextile){
-                 noJourMois = 29;
+                nbreJourMois = 29;
              } else {
-                 noJourMois = 28;
+                nbreJourMois = 28;
              }
          } else if((int)moisCourrant < 8 ) {
              if ((int)moisCourrant % 2 == 0) {
-                 noJourMois = 30;
+                nbreJourMois = 30;
              } else {
-                 noJourMois = 31;
+                nbreJourMois = 31;
              }
          } else {
              if ((int)moisCourrant % 2 == 0) {
-                 noJourMois = 31;
+                nbreJourMois = 31;
              } else {
-                 noJourMois = 30;
+                nbreJourMois = 30;
              }
          }
 
-         for (int jourMois = 1; jourMois <= noJourMois; ++jourMois) {
-             cout << setw(2) << jourMois << " ";
-             if (jourMois % 7 == 0) {
+         // Afficher les espaces
+         for (; jourMois < premierJourMois; jourMois = Jours((int)jourMois + 1)) {
+            cout << "   ";
+         }
+
+         // Afficher la date des jours
+         for (int dateJour = 1; dateJour <= nbreJourMois; ++dateJour) {
+             cout << setw(2) << dateJour << " ";
+
+             if (jourMois == Jours::DIMANCHE) {
                  cout << endl;
+                jourMois = Jours::LUNDI;
+             } else {
+                jourMois = Jours((int)jourMois + 1);
              }
          }
-        cout << endl;
+
+         cout << endl << endl;
+
+         // Calculer premier jour de mois suivant
+         premierJourMois = jourMois;
+         jourMois = Jours::LUNDI;
    }
 
    return EXIT_SUCCESS;
