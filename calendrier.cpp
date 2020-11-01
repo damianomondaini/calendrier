@@ -25,7 +25,7 @@
 
 using namespace std;
 
-// Définitions de commande pour vider le buffer et afficher le message de fin
+// Définitions des commandes pour gérer le buffer et afficher le message de fin
 #define VIDER_BUFFER    cin.ignore(numeric_limits<streamsize>::max(), '\n')
 #define MESSAGE_FIN     cout << "Presser ENTER pour quitter"; \
                         VIDER_BUFFER
@@ -34,13 +34,15 @@ using namespace std;
 
 int main () {
 
-    string recommencerStatut;
-
    // Accueil du programme
    cout << "Ce programme permet d’afficher le calendrier correspondant à une année" << endl;
 
-    // verif. si l'utilisateur veut recommencer ?
+   string recommencerStatut; // Variable permettant de savoir si l'utilisateur veut recommencer
+
+    // Exécute une fois le programme et recommence si l'utilisateur le souhaite
     do {
+       
+       // Déclaration et initialisation des variables et constantes pour gérer les années
         const unsigned int anneeMax     = 2100;
         const unsigned int anneeMin     = 1900;
         const unsigned int noEspaceJour = 2;
