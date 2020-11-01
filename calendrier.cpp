@@ -59,6 +59,7 @@ int main () {
            VIDER_BUFFER;
         } while (anneeSaisie < anneeMin || anneeSaisie > anneeMax);
 
+        // Déclaration de class enum Mois avec janvier qui commence à 1
         enum class Mois {
             JANVIER = 1,
             FEVRIER,
@@ -74,6 +75,7 @@ int main () {
             DECEMBRE
         };
 
+        // Déclaration de class enum Jour avec lundi qui commence à 1
         enum class Jours {
             LUNDI = 1,
             MARDI,
@@ -84,13 +86,15 @@ int main () {
             DIMANCHE
         };
 
-        bool estBissextile = false;
 
         // calcul si l'année est bissextile
+        bool estBissextile = false;
+
         if (anneeSaisie % 400 == 0 || anneeSaisie % 4 == 0 && anneeSaisie % 100 != 0) {
             estBissextile = true;
         }
 
+        // Declaration du premier jour et premier jour du mois
         Jours premierJourMois = Jours::LUNDI;
         Jours jourMois = Jours::LUNDI;
 
@@ -172,7 +176,7 @@ int main () {
            cin >> recommencerStatut;
 
            if (cin.fail()) {
-              REPARER_BUFFER;
+               REPARER_BUFFER;
            }
 
            if (recommencerStatut == "n") {
@@ -181,7 +185,7 @@ int main () {
            }
 
            if (recommencerStatut != "o") {
-              cout << "La valeur saisie n'est pas valide. Merci de recommencer." << endl;
+               cout << "La valeur saisie n'est pas valide. Merci de recommencer." << endl;
            }
 
            VIDER_BUFFER;
