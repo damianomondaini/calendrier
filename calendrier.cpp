@@ -10,8 +10,7 @@
 
   Remarque(s) : - L'utilisateur ne peut entrer que des années entre 1900 et
                   2100
-                - Les saisies de l'utilisateur sont vérifiés
-                - Les premiers janvier sont considérés comme des lundis
+                - Les saisies de l'utilisateur sont vérifiées
 
   Compilateur : Mingw-w64 g++ 8.1.0
   ---------------------------------------------------------------------------
@@ -22,7 +21,7 @@
 #include <cstdlib>   // EXIT_SUCCESS
 #include <limits>    // numeric_limits<...> pour vider le buffer
 #include <string>    // Type de variable string
-#include <cmath>     // floor
+#include <cmath>     // Utilisation de floor()
 
 using namespace std;
 
@@ -49,10 +48,11 @@ int main () {
         const unsigned int noEspaceJour = 2;
         unsigned int anneeSaisie        = 0;
 
-        // Saisi + vérification de l'année rentrer par l'utilisateur
+        // Saisi et vérification de l'année entrée par l'utilisateur
         do {
             cout << "Entrer une valeur [1900-2100] : ";
             cin >> anneeSaisie;
+
             if (cin.fail() || anneeSaisie < anneeMin || anneeSaisie > anneeMax) {
                 REPARER_BUFFER;
                 cout << "La valeur saisie n'est pas valide. Merci de recommencer." << endl;
@@ -87,10 +87,8 @@ int main () {
             DIMANCHE
         };
 
-
-        // calcul si l'année est bissextile
+        // Définition, initialisation et calcul si l'année est bissextile
         bool estBissextile = false;
-
         if (anneeSaisie % 400 == 0 || anneeSaisie % 4 == 0 && anneeSaisie % 100 != 0) {
             estBissextile = true;
         }
@@ -100,7 +98,7 @@ int main () {
         Jours jourMois = Jours::LUNDI;
 
         // Premier jour de la semaine de janiver de l'année saisi
-        // viens de : https://www.tutorialspoint.com/day-of-the-week-in-cplusplus
+        // Source : https://www.tutorialspoint.com/day-of-the-week-in-cplusplus
         unsigned int deuxDerniersChiffres = (anneeSaisie - 1) % 100;
         unsigned int deuxPremiersChiffres = (anneeSaisie - 1) / 100;
         unsigned int codeJourSemaine      = (1 + (int)floor((13*14)/5)
@@ -109,7 +107,7 @@ int main () {
                                             + (5 * deuxPremiersChiffres));
 
 
-        // decode codeJourSemaine: Quand codeJourSemaine = 0, correspond à samedi et Quand codeSemaine = 6
+        // Décode 'codeJourSemaine': quand codeJourSemaine = 0, correspond à samedi et quand codeSemaine = 6
         // correspond à vendredi
         switch (codeJourSemaine % 7) {
             case 0:
@@ -135,12 +133,12 @@ int main () {
                 break;
         }
 
-        // boucle sur les mois
+        // Boucle pour chaque mois
         for (Mois moisCourrant = Mois::JANVIER;
              moisCourrant <= Mois::DECEMBRE;
              moisCourrant = Mois((int)moisCourrant + 1)) {
 
-            // Afficher nom du mois en fonction de son numéro
+            // Affiche le nom du mois en fonction de son numéro
             switch ((int)moisCourrant) {
                 case 1: cout  << "JANVIER";   break;
                 case 2: cout  << "FEVRIER";   break;
@@ -156,28 +154,28 @@ int main () {
                 case 12: cout << "DECEMBRE";  break;
             }
 
-            // Afficher année
+            // Affiche l'année
             cout << " " << anneeSaisie << endl;
 
-            // Afficher la premiere lettre du jour de la semaine
+            // Affiche la premiere lettre du jour de la semaine
             cout << " L  M  M  J  V  S  D" << endl;
 
             int nbreJourMois;
 
             // calcule le nombre de jour dans le mois courrant
-            if (moisCourrant == Mois::FEVRIER) {
-                if(estBissextile){
+            if (moisCourrant == Mois::FEVRIER) {               // Vérifie si le mois courant est févirer
+                if (estBissextile) {
                     nbreJourMois = 29;
                 } else {
                     nbreJourMois = 28;
                 }
-            } else if((int)moisCourrant < (int)Mois::AOUT ) { // verif. si mois courrant est avant aout
+            } else if ((int)moisCourrant < (int)Mois::AOUT) {  // Vérifie si le mois courrant est avant aout
                 if ((int)moisCourrant % 2 == 0) {
                     nbreJourMois = 30;
                 } else {
                     nbreJourMois = 31;
                 }
-            } else { // si mois courrant est depuis aout jusqu'à décembre
+            } else {                                           // Vérifie si le mois courrant est depuis août
                 if ((int)moisCourrant % 2 == 0) {
                     nbreJourMois = 31;
                 } else {
@@ -185,12 +183,12 @@ int main () {
                 }
             }
 
-            // Afficher les espaces pour commencer le mois le bon jour de la semaine
+            // Affiche les espaces pour commencer le mois le bon jour de la semaine
             for (; jourMois < premierJourMois; jourMois = Jours((int)jourMois + 1)) {
                 cout << "   ";
             }
 
-            // Afficher le numero du jour par rapport au mois
+            // Afficher le numéro du jour par rapport au mois
             for (int dateJour = 1; dateJour <= nbreJourMois; ++dateJour) {
                 cout << setw(noEspaceJour) << dateJour << " ";
 
@@ -204,28 +202,29 @@ int main () {
 
             cout << endl << endl;
 
-            // Calculer premier jour de mois suivant
+            // Calcule le premier jour du mois suivant
             premierJourMois = jourMois;
             jourMois = Jours::LUNDI;
         }
 
-        // vérif. si l'utilisateur veux recommencer
+        // Vérifie si l'utilisateur veut recommencer
         do {
            cout << "Voulez vous recommencer ? [o/n] : ";
            cin >> recommencerStatut;
 
-           // vérif. si le buffer est cassé
+           // Vérifie si le buffer est cassé
            if (cin.fail()) {
                REPARER_BUFFER;
            }
 
-           // vérif. si l'utilisateur ne plus recommencer
+           // Vérifie si l'utilisateur ne plus recommencer
            if (recommencerStatut == "n") {
+              VIDER_BUFFER;
               MESSAGE_FIN;
               return EXIT_SUCCESS;
            }
 
-           // vérif. si l'utilisateur a saisi autre chose que 'o' ou 'n'
+           // Vérifie si l'utilisateur a saisi autre chose que 'o' ou 'n'
            if (recommencerStatut != "o") {
                cout << "La valeur saisie n'est pas valide. Merci de recommencer." << endl;
            }
@@ -233,6 +232,7 @@ int main () {
            VIDER_BUFFER;
 
         } while (recommencerStatut != "o");
+
     } while(recommencerStatut == "o");
 
     return EXIT_SUCCESS;
