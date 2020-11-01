@@ -21,37 +21,9 @@
 #include <iomanip>   // Gestion de l'afifchage
 #include <cstdlib>   // EXIT_SUCCESS
 #include <limits>    // numeric_limits<...> pour vider le buffer
+#include <string>    // Type de variable string
 
 using namespace std;
-/*
-   1.	Accueil du programme
-      a.	Ce programme permet d’afficher le calendrier correspondant à une année
-   2.	Saisie de l’année par l’utilisateur
-      a.	Faire
-      i.	Entrer une année [1900-2100] :
-   ii.	Si année n’est pas valide
-   1.	Afficher recommencer
-   b.	Tant que
-   i.	Année < 1900
-   ii.	OU année est > 2100
-   iii.	OU année n’est pas une date
-   3.	Affichage du calendrier
-      a.	Calculer si année bissextile
-   b.	Pour chaque mois
-      i.	Calculer nombre de jours
-   ii.	Calculer quel est le premier jour
-   iii.	Afficher le nom et l’année
-      iv.	Afficher les jours de la semaine
-   v.	Afficher la date du jour <--------------------- fait jusqu'ici TODO: le reste
-   4.	Demander si l’utilisateur veut recommencer
-      a.	Demander s’il veut recommencer
-      b.	Tant que
-   i.	L’utilisateur veut recommencer
-   5.	Fin du programme
-      a.	Appuyer sur enter pour quitter
-
-    TODO: Optionelle, calculer le premier jour de l'année saisi
-*/
 
 // Définitions de commande pour vider le buffer et afficher le message de fin
 #define VIDER_BUFFER    cin.ignore(numeric_limits<streamsize>::max(), '\n')
@@ -62,13 +34,13 @@ using namespace std;
 
 int main () {
 
-    char recommencerStatut;
+    string recommencerStatut;
+
+   // Accueil du programme
+   cout << "Ce programme permet d’afficher le calendrier correspondant à une année" << endl;
 
     // verif. si l'utilisateur veut recommencer ?
     do {
-        // Accueil du programme
-        cout << "Ce programme permet d’afficher le calendrier correspondant à une année" << endl;
-
         const unsigned int anneeMax     = 2100;
         const unsigned int anneeMin     = 1900;
         const unsigned int noEspaceJour = 2;
@@ -80,9 +52,9 @@ int main () {
             cin >> anneeSaisie;
             if (cin.fail() || anneeSaisie < anneeMin || anneeSaisie > anneeMax) {
                 REPARER_BUFFER;
-                VIDER_BUFFER;
                 cout << "La valeur saisie n'est pas valide. Merci de recommencer." << endl;
             }
+           VIDER_BUFFER;
         } while (anneeSaisie < anneeMin || anneeSaisie > anneeMax);
 
         enum class Mois {
@@ -194,27 +166,27 @@ int main () {
         }
 
         do {
-            if(cin.fail()){
-                REPARER_BUFFER;
-            }
-            VIDER_BUFFER;
+           cout << "Voulez vous recommencer ? [o/n] : ";
+           cin >> recommencerStatut;
 
-            cout << "Voulez vous recommencer ? [o/n] : ";
-            cin >> recommencerStatut;
+           if (cin.fail()) {
+              REPARER_BUFFER;
+           }
 
-            if(recommencerStatut == 'n'){
-                return EXIT_SUCCESS;
-            }
+           if (recommencerStatut == "n") {
+              MESSAGE_FIN;
+              return EXIT_SUCCESS;
+           }
 
-            if(recommencerStatut != 'o'){
-                cout << "Erreur, veuillez repondre correctement" << endl;
-            }
+           if (recommencerStatut != "o") {
+              cout << "La valeur saisie n'est pas valide. Merci de recommencer." << endl;
+           }
 
-        } while(recommencerStatut != 'o');
+           VIDER_BUFFER;
 
-    } while(recommencerStatut == 'o');
+        } while (recommencerStatut != "o");
 
-    MESSAGE_FIN;
+    } while(recommencerStatut == "o");
 
     return EXIT_SUCCESS;
 }
